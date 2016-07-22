@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code Information</title>
+
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+    <script src="js/highcharts.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.css" >
+
+    <script src="js/myapp.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!------------------------------------------------------------------------------------------------------->
+    <div>
+        <!-- Nav tabs -->
+        <ul style="padding-top: 40px" class="nav nav-tabs nav-justified" role="tablist">
+            <li role="presentation" class="active"><a href="#dash" aria-controls="dash" role="tab" data-toggle="tab">Dashboard</a></li>
+            <li role="presentation"><a id="activateHistory" href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
+            <li role="presentation"><a id="activateQuery" href="#query" aria-controls="query" role="tab" data-toggle="tab">Query Tool</a></li>
+            <li role="presentation"><a id="activateReports" href="#reports" aria-controls="reports" role="tab" data-toggle="tab">Reports</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="dash">
+                <h3 style="padding-top: 40px">Last 10 Scans:</h3>
+                <div class="panel-group" id="accordion-dash" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion-dash" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    LOADING
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                Not yet connected to server
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="history">
+                <div style="padding-top: 20px" class="row">
+                    <div class='col-md-6'><h4>Start Date</h4></div>
+                    <div class='col-md-6'><h4>End Date</h4></div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='history-fromdate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='history-todate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-1"></div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="errorsOnlyHistory" /> Retrieve Error Records Only
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="btn-history" class="btn btn-primary btn-lg btn-block" type="submit">View Records</button>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div style="overflow-y: auto; height: 520px; width: 100%;">
+                    <div style="margin-top: 20px" class="panel-group" id="accordion-history" role="tablist" aria-multiselectable="true"></div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="query">
+                <div style="padding-top: 20px" class="row">
+                    <div class='col-md-6'><h4>Start Date</h4></div>
+                    <div class='col-md-6'><h4>End Date</h4></div>
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='query-fromdate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='query-todate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-1"></div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="errorsOnlyQuery" /> Retrieve Error Records Only
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="btn-query" class="btn btn-primary btn-lg btn-block" type="submit">View Records</button>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <div id="dropdownClicked" class="dropdown invisible">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Save to CSV
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="drivelist" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                <div style="overflow-y: auto; height: 520px; width: 100%;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>uid</th>
+                                <th>OSG</th>
+                                <th>CTG</th>
+                                <th>ANUG</th>
+                                <th>PGG</th>
+                                <th>DD</th>
+                                <th><span class="glyphicon glyphicon-qrcode"></span> Code</th>
+                                <th><span class="glyphicon glyphicon-time"></span> Scan Time</th>
+                                <th><span class="glyphicon glyphicon-alert"></span> Errors</th>
+                            </tr>
+                        </thead>
+                        <tbody id="content-query">
+                            <tr>
+                                <td>...</td><td>...</td><td>...</td>
+                                <td>...</td><td>...</td><td>...</td>
+                                <td>...</td><td>...</td><td>...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="reports">
+                <h3 style="padding-top: 40px">Reports</h3>
+                <div id="graph-container" style="height:400px;"></div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="savetodiskmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------------->
+</div>
+</body>
+</html>
