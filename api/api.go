@@ -1,16 +1,16 @@
 package api
 
 import (
+	"database/sql"
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	_ "github.com/denisenkom/go-mssqldb"
+	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
-	"database/sql"
-	_ "github.com/denisenkom/go-mssqldb"
-	"net/http"
-	"encoding/csv"
-	"os"
 )
 
 type tablerow struct {
@@ -48,9 +48,9 @@ type api struct {
 	db *sql.DB
 }
 
-func New(dbServerName *string, dbUserName *string, dbPassword *string) *api {
+func New(dbConfig *AppConfig) *api {
 	a := api{}
-	db, err := sql.Open("mssql", "server="+*dbServerName+";user id="+*dbUserName+";password="+*dbPassword)
+	db, err := sql.Open("mssql", "server="+dbConfig.DbServerAddress+";user id="+dbConfig.DbUser+";password="+dbConfig.DbPass)
 	checkErr(err)
 	a.db = db
 	return &a

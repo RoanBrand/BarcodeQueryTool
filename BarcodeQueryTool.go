@@ -2,24 +2,33 @@ package main
 
 import (
 	"flag"
+	"github.com/RoanBrand/BarcodeQueryTool/api"
 	"log"
 	"net/http"
-	"github.com/RoanBrand/BarcodeQueryTool/api"
 )
 
 func main() {
-	// Get Database login information
-	serverName := flag.String("server", "localhost\\WINCCPLUSMIG2008", "Specify DB Server IP-Hostname")
-	dbUser := flag.String("user", "", "Specify MS SQL Server Username")
-	dbPass := flag.String("pass", "", "Specify MS SQL Server Password")
+	// Get config
+	usageHelpMessage := `You must set the config, e.g. BarcodeQueryTool.exe -config="config.json"`
+	mainconfig := flag.String("config", "", usageHelpMessage)
 	flag.Parse()
+
+	// Load config
+	if *mainconfig == "" {
+		log.Fatal(usageHelpMessage)
+	}
+	conf := &api.AppConfig{}
+	err := conf.LoadFromFile(*mainconfig)
+	if err != nil {
+		log.Fatalf("Error loading %v: %v", *mainconfig, err)
+	}
 
 	// Static files for frontend
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/", fs)
 
 	// Connect to DB
-	dbConn := api.New(serverName, dbUser, dbPass)
+	dbConn := api.New(conf)
 	defer dbConn.EndGracefully()
 
 	// Api calls
@@ -32,5 +41,3 @@ func main() {
 	log.Println("Starting HTTP Server")
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
-
-

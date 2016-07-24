@@ -1,0 +1,5 @@
+{
+	"DbServerAddress": "localhost\\WINCCPLUSMIG2008",
+	"DbUser": "frontend",
+	"DbPass": "wincc"
+}
