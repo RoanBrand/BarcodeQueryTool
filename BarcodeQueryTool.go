@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"github.com/RoanBrand/BootstrapServer/api"
+	"github.com/RoanBrand/BarcodeQueryTool/api"
 )
 
 func main() {
